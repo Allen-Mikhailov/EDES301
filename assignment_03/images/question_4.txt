@@ -1,0 +1,31 @@
+i) 
+I have a few problems with the style guide, for one in the tabs vs spaces 
+debate I am on the side of the tabs as it allows the 
+user to control how big the visual indent actually is
+while spaces do not allow this option. Spaces only limit 
+the amount of control we have over how our code looks.
+
+Also in the Whitespace section it states to avoid extraneous 
+white space which can make the code unreadable in many cases.
+I am not a fan of how they say to only use one space around 
+an assignment and not to try to align it with others. 
+To me this looks terrible and making sure all of the values 
+are aligned can make code so much easier to read.
+
+Also in the documentation with strings having the indent due to the 
+"""looks terrible and it would look so much
+better if they started writing a line after the """
+
+Also I think inline comments can make things a lot better.
+
+ii) 
+I do not think that white space should matter that much in python. 
+I often like using excess whitespace to align variables and similar
+lines to make them easier to read. 
+
+iii)
+The most interesting thing I found in the style guide was the
+fact that underscores have meanings other than just for an unused variable
+or between words. It is also used to indicate private variables which I think
+is a weird way to do it but it works. Also trailing underscores to prevent clashes
+with keywords is something ive never thought to do before.

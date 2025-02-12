@@ -1,0 +1,15 @@
+a)
+	i) 42
+	ii) 255
+	iii) 2024
+	iv) 44269
+b)
+	i) 42
+	ii) -1
+	iii) 2024
+	iv) -21267
+c)
+	i) I
+	ii) love
+	iii) EDES
+	iv) 301
