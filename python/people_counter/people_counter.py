@@ -106,7 +106,10 @@ class PeopleCounter():
             else:
                 people_count += 1
             
-            self.display.update(people_count)
+            if (people_count > HT16K33.HT16K33_MAX_VALUE):
+                self.display.text("BIG")
+            else:
+                self.display.update(people_count)
     
             # Wait for button press / release
 
