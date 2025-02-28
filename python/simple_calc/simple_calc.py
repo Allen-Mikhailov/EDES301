@@ -99,8 +99,8 @@ def get_user_input():
                         (None, None, None) if inputs invalid
     """
     try:
-        number1 = float(input("Enter first number : "))
-        number2 = float(input("Enter second number: "))
+        number1 = float(get_input("Enter first number : "))
+        number2 = float(get_input("Enter second number: "))
         op = input("Enter function (valid values are +, -, *, /, <<, >>, %, **): ")
         func = operators.get(op)
         
