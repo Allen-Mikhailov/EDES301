@@ -45,4 +45,8 @@ dirs=(
     "/var/lib/cloud9/EDES301/python/button:"
 )
 
+<<<<<<< HEAD
 PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 people_counter.py
+=======
+PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 uni-cat.py
+>>>>>>> 89d01dadfa16a67db9692a4495cfcd4529572c5c
