@@ -43,26 +43,42 @@ Uses:
 
 class Action:
 	name: str = ""
+	is_active: bool = False
+	is_ready: bool = False
+	force_priority: float = 0
+	random_weight: float = 0
+	state_machine = None
 
-	def __init__(self, name):
+	def __init__(self, name, force_priority=0, random_weight=0):
 		self.name = name
+		self.force_priority = force_priority
+		self.random_weight = random_weight
+	
+	def attach_state_machine(self, machine):
+		self.state_machine = machine
 
 	def attach(self):
-		pass
+		self.is_active = True
 
 	def release(self):
-		pass
+		self.is_active = False
 
 	def loop(self):
 		pass
 
 class Plugin:
 	name: str = ""
-	actions = []
+	actions: list[Action] = []
+	state_machine = None
 
 	def __init__(self, name: str):
 		self.name = name
 
 	def add_action(self, action: Action):
 		self.actions.append(action)
+
+	def attach_state_machine(self, machine):
+		self.state_machine = machine
+		for action in self.actions:
+			action.attach_state_machine(machine)
         
