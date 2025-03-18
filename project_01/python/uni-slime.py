@@ -1,6 +1,6 @@
 """
 --------------------------------------------------------------------------
-Uni-Cat
+Uni-Slime
 --------------------------------------------------------------------------
 License:   
 Copyright 2025 Allen Mikhailov
@@ -41,10 +41,12 @@ Uses:
 
 """
 import time
+import plugins.plugin as raw_plugins
+
+import plugins.simple_movement 
 
 # import ht16k33 as HT16K33
 import drivers.button as BUTTON
-
 
 # ------------------------------------------------------------------------
 # Constants
@@ -62,19 +64,37 @@ import drivers.button as BUTTON
 # Functions / Classes
 # ------------------------------------------------------------------------
 
-class UniCat():
-    services = {}
-    drivers = {}
+class UniSlime():
+	drivers: dict[str, None] = {}
+	plugins: dict[str, raw_plugins.Plugin] = {}
+	actions: dict[str, raw_plugins.Action] = {}
+	def __init__(self):
+		pass
 
-    def __init__(self):
-        pass
 
-    def add_service(self, service):
-        self.services[service.name] = service
+	def add_driver(self, name: str, driver):
+		self.drivers[name] = driver
 
-    def add_driver(self, name, driver):
-        self.drivers[name] = driver
+	def add_plugin(self, plugin: raw_plugins.Plugin):
+		self.plugins[plugin.name] = plugin
+		for action in plugin.actions:
+			self.add_action(action)
 
+
+	def add_action(self, action: raw_plugins.Action):
+		if action.name in self.actions:
+			raise ValueError(f"")
+			
+
+	def run(self):
+		# loop infinitly
+		while True:
+			for action_name in self.actions:
+				self.actions[action_name].loop()
+			time.sleep(0.001) # sleep 1 ms
+
+	def cleanup(self):
+		pass
 
 
 
@@ -84,19 +104,23 @@ class UniCat():
 
 if __name__ == '__main__':
 
-    print("Program Start")
+	print("Program Start")
 
-    # Create instantiation of the people counter
-    
-    uni_cat = UniCat()
+	# Create instantiation of the people counter
+	
+	uni_slime = UniSlime()
 
-    try:
-        # Run the people counter
-        uni_cat.run()
+	uni_slime.add_plugin(plugins.simple_movement.SimpleMovement())
+	
 
-    except KeyboardInterrupt:
-        # Clean up hardware when exiting
-        uni_cat.cleanup()
 
-    print("Program Complete")
+	try:
+		# Run the people counter
+		uni_slime.run()
+
+	except KeyboardInterrupt:
+		# Clean up hardware when exiting
+		uni_slime.cleanup()
+
+	print("Program Complete")
 

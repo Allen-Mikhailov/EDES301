@@ -34,15 +34,35 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Description
 
 Requirements:
-  -
+-
 
 Uses:
-  -
+-
 
 """
 
-class Service:
-    name = None
+class Action:
+	name: str = ""
 
-    def __init__(self, name):
-        self.name = name
+	def __init__(self, name):
+		self.name = name
+
+	def attach(self):
+		pass
+
+	def release(self):
+		pass
+
+	def loop(self):
+		pass
+
+class Plugin:
+	name: str = ""
+	actions = []
+
+	def __init__(self, name: str):
+		self.name = name
+
+	def add_action(self, action: Action):
+		self.actions.append(action)
+        
