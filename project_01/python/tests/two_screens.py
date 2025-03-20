@@ -32,4 +32,4 @@ def test_screen(display):
 test_screen(display1)
 test_screen(display2)
 
-print(inspect.getmembers(display1, predicate=inspect.isfunction))
+print(inspect.getmembers(display1, predicate=inspect.ismethod))
