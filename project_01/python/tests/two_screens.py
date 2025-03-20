@@ -32,4 +32,5 @@ def test_screen(display):
 test_screen(display1)
 test_screen(display2)
 
-print(inspect.getmembers(display1, predicate=inspect.ismethod))
+for method in inspect.getmembers(display1, predicate=inspect.ismethod):
+	print(method[0])
