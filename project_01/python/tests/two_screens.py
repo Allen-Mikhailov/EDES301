@@ -4,6 +4,8 @@ import busio
 # Import the SSD1306 module.
 import adafruit_ssd1306
 
+import inspect
+
 i2c1 = busio.I2C(board.SCL, board.SDA)
 i2c2 = busio.I2C(board.SCL_2, board.SDA_2)
 
@@ -29,3 +31,5 @@ def test_screen(display):
 
 test_screen(display1)
 test_screen(display2)
+
+print(inspect.getmembers(display1, predicate=inspect.isfunction))

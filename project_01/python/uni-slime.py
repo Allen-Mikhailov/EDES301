@@ -41,7 +41,9 @@ Uses:
 
 """
 import time
-import plugins.plugin as raw_plugins
+from plugins.plugin import Plugin, Action, Commander
+from typing import cast
+from state_machine import StateMachine
 
 import plugins.simple_movement 
 
@@ -64,26 +66,29 @@ import drivers.button as BUTTON
 # Functions / Classes
 # ------------------------------------------------------------------------
 
-class UniSlime():
-	drivers: dict[str, None] = {}
-	plugins: dict[str, raw_plugins.Plugin] = {}
-	actions: dict[str, raw_plugins.Action] = {}
+class UniSlime(Commander):
 	def __init__(self):
 		pass
-
 
 	def add_driver(self, name: str, driver):
 		self.drivers[name] = driver
 
-	def add_plugin(self, plugin: raw_plugins.Plugin):
+	def add_plugin(self, plugin: Plugin):
 		self.plugins[plugin.name] = plugin
+		plugin.attach_commander(self)
 		for action in plugin.actions:
 			self.add_action(action)
 
 
-	def add_action(self, action: raw_plugins.Action):
+	def add_action(self, action: Action):
+		# checking for name conflicts
 		if action.name in self.actions:
-			raise ValueError(f"")
+			original_action = cast(Plugin, self.actions[action.name].parent_plugin).name
+			plugin_name = cast(Plugin, action.parent_plugin).name
+			raise ValueError(f"Action {action.name} name conflict between the plugins {plugin_name} and {original_action}")
+		
+		self.actions[action.name] = action
+
 			
 
 	def run(self):
@@ -91,6 +96,8 @@ class UniSlime():
 		while True:
 			for action_name in self.actions:
 				self.actions[action_name].loop()
+
+			# dont know if this line will stay
 			time.sleep(0.001) # sleep 1 ms
 
 	def cleanup(self):

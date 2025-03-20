@@ -40,6 +40,14 @@ Uses:
 -
 
 """
+from __future__ import annotations
+from state_machine import StateMachine
+
+class Commander():
+	drivers: dict[str, None] = {}
+	plugins: dict[str, Plugin] = {}
+	actions: dict[str, Action] = {}
+	state_machine: StateMachine = StateMachine()
 
 class Action:
 	name: str = ""
@@ -47,15 +55,17 @@ class Action:
 	is_ready: bool = False
 	force_priority: float = 0
 	random_weight: float = 0
-	state_machine = None
+	commander: Commander | None = None
+
+	parent_plugin: Plugin | None = None
 
 	def __init__(self, name, force_priority=0, random_weight=0):
 		self.name = name
 		self.force_priority = force_priority
 		self.random_weight = random_weight
 	
-	def attach_state_machine(self, machine):
-		self.state_machine = machine
+	def attach_commander(self, machine):
+		self.commander = machine
 
 	def attach(self):
 		self.is_active = True
@@ -69,16 +79,17 @@ class Action:
 class Plugin:
 	name: str = ""
 	actions: list[Action] = []
-	state_machine = None
+	commander: Commander | None = None
 
 	def __init__(self, name: str):
 		self.name = name
 
 	def add_action(self, action: Action):
+		action.parent_plugin = self
 		self.actions.append(action)
 
-	def attach_state_machine(self, machine):
-		self.state_machine = machine
+	def attach_commander(self, machine):
+		self.commander = machine
 		for action in self.actions:
-			action.attach_state_machine(machine)
+			action.attach_commander(machine)
         
