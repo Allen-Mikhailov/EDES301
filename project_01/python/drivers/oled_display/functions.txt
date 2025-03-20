@@ -1,0 +1,24 @@
+A list of functions that I know exist in the api
+
+__init__
+blit
+circle
+contrast
+fill
+fill_rect
+hline
+image
+init_display
+invert
+line
+pixel
+poweroff
+poweron
+rect
+rotate
+scroll
+show
+text
+vline
+write_cmd
+write_framebuf
