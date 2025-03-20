@@ -44,6 +44,7 @@ sudo make altinstall
 ```bash
 sudo python3.11 -m pip install adafruit-circuitpython-ssd1306
 sudo python3.11 -m pip install adafruit-blinka
+sudo python3.11 -m pip install pillow
 # i think there is one more that has something to do with BBIO
 
 ```
