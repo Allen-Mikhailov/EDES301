@@ -4,6 +4,7 @@ from enum import Enum
 from board import SCL, SDA
 import busio
 import adafruit_ssd1306
+from PIL import Image, ImageDraw, ImageFont  # Use Pillow for fonts
 
 
 def draw_box(display, x, y, width, height, color):
@@ -69,10 +70,10 @@ class ScreenBorder(ScreenElement):
 		top: int   = self.y
 		bot: int   = self.y + self.height - 1
 		
-		display.line(left, top, right, top)  # top
-		display.line(left, bot, right, bot)  # bottom
-		display.line(left, top, left, bot)   # left
-		display.line(right, top, right, bot) # right
+		display.line(left, top, right, top, 1)  # top
+		display.line(left, bot, right, bot, 1)  # bottom
+		display.line(left, top, left, bot, 1)   # left
+		display.line(right, top, right, bot, 1) # right
 
 TEXT_SIZE = 8
 TEXT_PADDING = 2
@@ -162,7 +163,7 @@ class OLEDDisplay():
 	address: int = 0
 	i2c = None
 
-	current_screen: Screen | None
+	current_screen: Screen | None = None
 
 	mode: ScreenMode = ScreenMode.RAW
 
@@ -178,7 +179,7 @@ class OLEDDisplay():
 			raise ValueError(f"Invalid bus \"{bus}\"")
 
 		
-		self.display = adafruit_ssd1306.SSD1306_I2C(128, 64, self.i2c, address)
+		self.display = adafruit_ssd1306.SSD1306_I2C(128, 64, self.i2c, addr=address)
 
 	def redraw(self):
 		# Guard Clause
