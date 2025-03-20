@@ -119,7 +119,7 @@ class ScreenButton(ScreenText, ScreenBorder):
 
 class Screen():
 	selected_element: ScreenElement | None
-	elements: dict[str, ScreenElement]
+	elements: dict[str, ScreenElement] = {}
 	on_update: function | None
 	def __init__(self) -> None:
 		pass
