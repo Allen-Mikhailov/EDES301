@@ -6,13 +6,16 @@ import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont  # Use Pillow for fonts
 
+fnt = ImageFont.truetype("Pillow/Tests/fonts/FreeMono.ttf", 5)
 
-def draw_box(display, x, y, width, height, color):
+
+def draw_box(draw: ImageDraw.ImageDraw, x, y, width, height, color):
 	left: int  = x
 	right: int = x + width - 1
 	top: int   = y
 	bot: int   = y + height - 1
-	display.fill_rect(left, top, right, bot, color)
+
+	draw.rectangle((left, top, right, bot), fill=color)
 
 class ScreenMode(Enum):
 	RAW = 0    # for directly using the display api
@@ -37,7 +40,7 @@ class ScreenElement():
 	def get_center(self) -> tuple[float, float]:
 		return (self.x + self.width / 2.0, self.y + self.height / 2.0)
 
-	def display(self, display):
+	def display(self, draw: ImageDraw.ImageDraw):
 		pass
 
 	# overwrite if is selectable 
@@ -62,32 +65,29 @@ class ScreenElement():
 		
 
 class ScreenBorder(ScreenElement):
-	def display(self, display):
-		super().display(display)
+	def display(self, draw: ImageDraw.ImageDraw):
+		super().display(draw)
 
 		left: int  = self.x
 		right: int = self.x + self.width - 1
 		top: int   = self.y
 		bot: int   = self.y + self.height - 1
 		
-		display.line(left, top, right, top, 1)  # top
-		display.line(left, bot, right, bot, 1)  # bottom
-		display.line(left, top, left, bot, 1)   # left
-		display.line(right, top, right, bot, 1) # right
+		draw.rectangle((left, top, right, bot), outline=255)
 
 TEXT_SIZE = 8
 TEXT_PADDING = 2
 	
 class ScreenText(ScreenElement):
 	text: str = ""
-	font_color: int = 1
+	font_color: int = 255
 	def __init__(self, name) -> None:
 		super().__init__(name)
 		
 	# text: str = ""
-	def display(self, display):
-		super().display(display)
-		display.text(self.text, self.x+TEXT_PADDING, self.y+TEXT_PADDING, self.font_color)
+	def display(self, draw: ImageDraw.ImageDraw):
+		super().display(draw)
+		draw.text((self.x+TEXT_PADDING, self.y+TEXT_PADDING), self.text, self.font_color)
 
 	def set_text(self, text):
 		self.text = text
@@ -100,14 +100,14 @@ class ScreenButton(ScreenText, ScreenBorder):
 	def __init__(self, name) -> None:
 		super().__init__(name)
 
-	def display(self, display):
+	def display(self, draw: ImageDraw.ImageDraw):
 		if (self.selected):
-			draw_box(display, self.x, self.y, self.width, self.height, 1)
+			draw_box(draw, self.x, self.y, self.width, self.height, 255)
 			self.set_font_color(0)
-			ScreenText.display(self, display)
+			ScreenText.display(self, draw)
 		else:
-			self.set_font_color(1)
-			return super().display(display)
+			self.set_font_color(255)
+			return super().display(draw)
 	
 	def is_selectable(self) -> bool:
 		return True
@@ -121,9 +121,20 @@ class ScreenButton(ScreenText, ScreenBorder):
 class Screen():
 	selected_element: ScreenElement | None
 	elements: dict[str, ScreenElement] = {}
+
+	width: int = 0
+	height: int = 0
+
 	on_update: function | None
-	def __init__(self) -> None:
-		pass
+
+	image: Image.Image
+	# draw: ImageDraw
+	
+	def __init__(self, width: int, height: int) -> None:
+		self.width = width
+		self.height = height
+		self.image: Image.Image = Image.new("1", (width, height))
+		self.draw = ImageDraw.Draw(self.image)
 
 	def add_element(self, element: ScreenElement):
 		if element.name in self.elements:
@@ -212,7 +223,7 @@ class OLEDDisplay():
 
 
 if __name__ == '__main__':
-	screen = Screen()
+	screen = Screen(128, 64)
 	button1 = ScreenButton("button1")
 	button1.x = 0
 	button1.y = 0
