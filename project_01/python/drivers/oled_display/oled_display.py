@@ -6,7 +6,7 @@ import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont  # Use Pillow for fonts
 
-fnt = ImageFont.truetype("Pillow/Tests/fonts/FreeMono.ttf", 5)
+fnt = ImageFont.load_default()
 
 
 def draw_box(draw: ImageDraw.ImageDraw, x, y, width, height, color):
@@ -150,13 +150,14 @@ class Screen():
 
 	def display_screen(self, display):
 		# clear the display
-		display.fill(0)
+		draw_box(self.draw, 0, 0, self.width-1, self.height-1, 0)
 
 		# loop through all the elements and display them
 		for element_name in self.elements:
 			element: ScreenElement = self.elements[element_name]
-			element.display(display)
-
+			element.display(self.draw)
+		
+		display.image(self.image)
 		display.show()
 
 	def move_dir(self, x, y):
