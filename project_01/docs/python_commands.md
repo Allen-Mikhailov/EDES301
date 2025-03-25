@@ -44,7 +44,19 @@ sudo make altinstall
 ```bash
 sudo python3.11 -m pip install adafruit-circuitpython-ssd1306
 sudo python3.11 -m pip install adafruit-blinka
-sudo python3.11 -m pip install pillow
+sudo python3.11 -m pip install numpy
 # i think there is one more that has something to do with BBIO
+
+# building pillow from source
+# instructions from https://pillow.readthedocs.io/en/stable/installation/building-from-source.html#building-from-source
+
+# depenencies
+# if it asks you to switch out a package do it (I forgot which one)
+sudo apt-get install python3-dev python3-setuptools
+sudo apt-get install libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev 
+sudo apt-get install libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk 
+sudo apt-get install libharfbuzz-dev libfribidi-dev libxcb1-dev
+
+sudo python3.11 -m pip install --upgrade Pillow --no-binary :all: --no-cache-dir
 
 ```

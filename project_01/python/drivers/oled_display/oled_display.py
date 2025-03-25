@@ -5,6 +5,7 @@ from board import SCL, SDA
 import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont  # Use Pillow for fonts
+import numpy as np
 
 fnt = ImageFont.load_default()
 
@@ -30,6 +31,7 @@ class ScreenElement():
 
 	on_update: function | None
 	on_select: function | None
+	on_press: function | None
 
 	selected: bool = False
 
@@ -47,10 +49,13 @@ class ScreenElement():
 	def is_selectable(self) -> bool:
 		return False
 	
-	def set_on_update(self, on_update: function):
+	def set_on_update(self, on_update: function | None):
 		self.on_update = on_update
 
-	def set_on_select(self, on_select: function):
+	def set_on_pressed(self, on_press: function | None):
+		self.on_press = on_press
+
+	def set_on_select(self, on_select: function | None):
 		self.on_select = on_select
 
 	def update(self):
@@ -60,8 +65,11 @@ class ScreenElement():
 	def set_selected(self, selected: bool):
 		self.selected = selected
 
-	def toggle_selected(self):
-		self.set_selected(not self.selected)
+	def press(self):
+		if self.on_press != None:
+			self.on_press()
+
+
 		
 
 class ScreenBorder(ScreenElement):
@@ -74,9 +82,6 @@ class ScreenBorder(ScreenElement):
 		bot: int   = self.y + self.height - 1
 		
 		draw.rectangle((left, top, right, bot), outline=255)
-
-TEXT_SIZE = 8
-TEXT_PADDING = 2
 	
 class ScreenText(ScreenElement):
 	text: str = ""
@@ -87,11 +92,22 @@ class ScreenText(ScreenElement):
 	# text: str = ""
 	def display(self, draw: ImageDraw.ImageDraw):
 		super().display(draw)
-		draw.text((self.x+TEXT_PADDING, self.y+TEXT_PADDING), self.text, self.font_color)
+		center = self.get_center()
+
+		bounds = self.get_text_bounds(draw)
+		width = bounds[2]-bounds[0]
+		height = bounds[3] - bounds[1]
+
+		
+		# we draw text at the center point - half the box
+		draw.text((center[0]-width/2, center[1]-height/2), self.text, self.font_color)
 
 	def set_text(self, text):
 		self.text = text
 		self.update()
+
+	def get_text_bounds(self, draw: ImageDraw.ImageDraw):
+		return draw.textbbox((0, 0), self.text)
 
 	def set_font_color(self, font_color):
 		self.font_color = font_color
@@ -160,12 +176,59 @@ class Screen():
 		display.image(self.image)
 		display.show()
 
-	def move_dir(self, x, y):
-		current_pos = ()
+	def move_dir(self, v: tuple[float, float]):
+		# direction normalized
+		dir = np.array(v) / np.hypot(v[0], v[1])
 
-	def select(self):
+		# getting the current position
+		current_pos: tuple[float, float] = (self.width/2, self.height/2)
+		if (self.selected_element != None):
+			current_pos = self.selected_element.get_center()
+
+		# looping through all elements
+		possible_selections = []
+		for element_name in self.elements:
+			element = self.elements[element_name]
+
+			if (not element.is_selectable()):
+				continue
+
+			offset = np.array((element.x-current_pos[0],element.y-current_pos[1]))
+			distance = np.hypot(offset[0], offset[1])
+
+			# things too close can not be selected really
+			if (distance < 5):
+				continue
+
+			offset_normalized = offset / distance
+			dot = np.dot(dir, offset_normalized)
+
+			# checking for greator than 45 deg diff
+			if (dot < np.sqrt(2)/2):
+				continue
+
+			possible_selections.append((element, distance))
+
+		if (len(possible_selections) > 0):
+			# picking closest element
+			possible_selections.sort(key=lambda x: x[1])
+			selection: ScreenElement = possible_selections[0][0]
+
+			# unselecting
+			if (self.selected_element != None):
+				self.selected_element.set_selected(False)
+			
+
+			# actually selecting
+			selection.set_selected(True)
+			self.selected_element = selection
+
+		
+
+
+	def press(self):
 		if (self.selected_element):
-			self.selected_element.toggle_selected()
+			self.selected_element.press()
 
 
 
@@ -175,11 +238,14 @@ class OLEDDisplay():
 	address: int = 0
 	i2c = None
 
+	width: int
+	height: int
+
 	current_screen: Screen | None = None
 
 	mode: ScreenMode = ScreenMode.RAW
 
-	def __init__(self, bus: int, address: int) -> None:
+	def __init__(self, bus: int, address: int, width: int=128, height:int=64) -> None:
 		self.bus = bus
 		self.address = address
 
@@ -190,8 +256,10 @@ class OLEDDisplay():
 		else:
 			raise ValueError(f"Invalid bus \"{bus}\"")
 
+		self.width = width
+		self.height = height
 		
-		self.display = adafruit_ssd1306.SSD1306_I2C(128, 64, self.i2c, addr=address)
+		self.display = adafruit_ssd1306.SSD1306_I2C(width, height, self.i2c, addr=address)
 
 	def redraw(self):
 		# Guard Clause
@@ -237,7 +305,7 @@ if __name__ == '__main__':
 	button2.y = 21
 	button2.width = 20
 	button2.height = 40
-	button1.text = "BUT: 2"
+	button2.text = "BUT: 2"
 
 	screen.add_element(button1)
 	screen.add_element(button2)

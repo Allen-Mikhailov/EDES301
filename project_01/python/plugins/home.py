@@ -1,0 +1,59 @@
+# This plugin uses the home button a dpad to create a common home interface UI using the mouth screen
+
+from plugin import Plugin, Action, Commander
+from drivers.button.button import Button
+from drivers.dpad.dpad import DPad
+from drivers.oled_display.oled_display import OLEDDisplay, Screen, ScreenButton, ScreenText
+
+class HomeAction(Action):
+	# drivers
+	dpad: DPad
+	display: OLEDDisplay
+	home_button: Button
+
+	# Screens
+	current_screen: Screen | None
+	home_screen: Screen
+
+	# UI
+
+	def __init__(self, commander: Commander, display: OLEDDisplay, dpad: DPad, home_button: Button):
+		super().__init__(commander, "HomeAction", 100, 0)
+
+		self.display = display
+		self.dpad = dpad
+		self.home_button = home_button
+
+		home_screen: Screen = Screen(display.width, display.height)
+		self.home_screen = home_screen
+
+		screen_title: ScreenText = ScreenText("HomeScreen-Title")
+		home_screen.add_element(screen_title)
+
+		self.dpad.set_on_move(lambda _dir: None if self.current_screen == None else self.current_screen.move_dir(_dir))
+
+	def toggle(self):
+		if (self.commander != None):
+			return
+
+		self.commander.state_machine.set_ready_state(not self.is_ready)
+
+
+
+class HomePlugin(Plugin):
+	dpad: DPad
+	display: OLEDDisplay
+	home_button: Button
+
+	home_action: HomeAction
+
+	def __init__(self, commander: Commander, display: OLEDDisplay, dpad: DPad, home_button: Button):
+		super().__init__(commander, "HomePlugin")
+
+		self.display = display
+		self.dpad = dpad
+		self.home_button = home_button
+
+		self.home_action = HomeAction(commander, display, dpad, home_button)
+
+		home_button.set_pressed_callback(lambda: self.home_action.toggle())

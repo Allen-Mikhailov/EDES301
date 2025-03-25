@@ -55,17 +55,15 @@ class Action:
 	is_ready: bool = False
 	force_priority: float = 0
 	random_weight: float = 0
-	commander: Commander | None = None
+	commander: Commander
 
 	parent_plugin: Plugin | None = None
 
-	def __init__(self, name, force_priority=0, random_weight=0):
+	def __init__(self, commander: Commander, name, force_priority=0, random_weight=0):
+		self.commander = commander
 		self.name = name
 		self.force_priority = force_priority
 		self.random_weight = random_weight
-	
-	def attach_commander(self, machine):
-		self.commander = machine
 
 	def attach(self):
 		self.is_active = True
@@ -79,17 +77,13 @@ class Action:
 class Plugin:
 	name: str = ""
 	actions: list[Action] = []
-	commander: Commander | None = None
+	commander: Commander
 
-	def __init__(self, name: str):
+	def __init__(self, commander: Commander, name: str):
+		self.commander = commander
 		self.name = name
 
 	def add_action(self, action: Action):
 		action.parent_plugin = self
 		self.actions.append(action)
-
-	def attach_commander(self, machine):
-		self.commander = machine
-		for action in self.actions:
-			action.attach_commander(machine)
         

@@ -13,11 +13,16 @@ class StateMachine():
 		self.actions[action.name] = action
 		self.total_random_weight += action.random_weight
 
+	def set_ready_state(self, action_name: str, is_ready: bool):
+		self.actions[action_name].is_ready = is_ready
+		self.update_state()
+
+
 	def update_state(self):
-		new_current_action = None
+		new_current_action: plugins.Action | None = None
 
 
-	def release_action(self, action_name: str):
+	def _release_action(self, action_name: str):
 		self.actions[action_name].release()
 		self.current_action = None
 		self.update_state()

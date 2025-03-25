@@ -49,6 +49,8 @@ import plugins.simple_movement
 
 # import ht16k33 as HT16K33
 import drivers.button as BUTTON
+from drivers.dpad.dpad import DPad
+from drivers.oled_display.oled_display import OLEDDisplay
 
 # ------------------------------------------------------------------------
 # Constants
@@ -116,6 +118,9 @@ if __name__ == '__main__':
 	# Create instantiation of the people counter
 	
 	uni_slime = UniSlime()
+
+	# adding drivers
+	dpad: DPad = DPad("P1_4")
 
 	uni_slime.add_plugin(plugins.simple_movement.SimpleMovement())
 	

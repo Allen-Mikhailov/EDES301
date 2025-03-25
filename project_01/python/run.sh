@@ -31,12 +31,12 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # --------------------------------------------------------------------------
 # 
-# Run People Counter
+# Run Uni-Slime
 # 
 # --------------------------------------------------------------------------
 
 
-cd /var/lib/cloud9/EDES301/python/people_counter
+cd /var/lib/cloud9/EDES301/project_01/python
 
 ./configure_pins.sh
 
@@ -45,8 +45,4 @@ dirs=(
     "/var/lib/cloud9/EDES301/python/button:"
 )
 
-<<<<<<< HEAD
-PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 people_counter.py
-=======
-PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 uni-cat.py
->>>>>>> 89d01dadfa16a67db9692a4495cfcd4529572c5c
+PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 uni-slime.py
