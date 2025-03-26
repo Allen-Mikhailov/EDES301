@@ -28,9 +28,17 @@ class HomeAction(Action):
 		self.home_screen = home_screen
 
 		screen_title: ScreenText = ScreenText("HomeScreen-Title")
+		screen_title.set_text("")
 		home_screen.add_element(screen_title)
 
+		# centering title
+		title_bounds = screen_title.get_text_bounds(home_screen.draw)
+		title_width = title_bounds[2] - title_bounds[0]
+		screen_title.x = int(display.width/2 - title_width / 2)
+
 		self.dpad.set_on_move(lambda _dir: None if self.current_screen == None else self.current_screen.move_dir(_dir))
+
+		home_screen.display_screen(display)
 
 	def toggle(self):
 		if (self.commander != None):

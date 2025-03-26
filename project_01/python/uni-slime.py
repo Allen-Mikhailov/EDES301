@@ -46,9 +46,10 @@ from typing import cast
 from state_machine import StateMachine
 
 import plugins.simple_movement 
+from plugins.home import HomePlugin
 
 # import ht16k33 as HT16K33
-import drivers.button as BUTTON
+from drivers.button.button import Button
 from drivers.dpad.dpad import DPad
 from drivers.oled_display.oled_display import OLEDDisplay
 
@@ -77,7 +78,6 @@ class UniSlime(Commander):
 
 	def add_plugin(self, plugin: Plugin):
 		self.plugins[plugin.name] = plugin
-		plugin.attach_commander(self)
 		for action in plugin.actions:
 			self.add_action(action)
 
@@ -119,12 +119,19 @@ if __name__ == '__main__':
 	
 	uni_slime = UniSlime()
 
-	# adding drivers
-	dpad: DPad = DPad("P1_4")
+	# adding drivers	
+	dpad: DPad = DPad("P1_04", "P1_06", "P1_08", "P1_10", "P_12")
+	mouth_display = OLEDDisplay(1, 0x3c)
+	home_button = Button("P_02")
 
-	uni_slime.add_plugin(plugins.simple_movement.SimpleMovement())
-	
+	uni_slime.add_driver("Dpad", dpad)
+	uni_slime.add_driver("MouthOLED", mouth_display)
+	uni_slime.add_driver("HomeButton", home_button)
 
+	# Adding plugins
+	home_plugin = HomePlugin(uni_slime, mouth_display, dpad, home_button)
+
+	uni_slime.add_plugin(home_plugin)
 
 	try:
 		# Run the people counter

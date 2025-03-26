@@ -102,14 +102,14 @@ class ScreenText(ScreenElement):
 		# we draw text at the center point - half the box
 		draw.text((center[0]-width/2, center[1]-height/2), self.text, self.font_color)
 
-	def set_text(self, text):
+	def set_text(self, text: str):
 		self.text = text
 		self.update()
 
 	def get_text_bounds(self, draw: ImageDraw.ImageDraw):
 		return draw.textbbox((0, 0), self.text)
 
-	def set_font_color(self, font_color):
+	def set_font_color(self, font_color: int):
 		self.font_color = font_color
 
 class ScreenButton(ScreenText, ScreenBorder):
