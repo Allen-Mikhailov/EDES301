@@ -1,15 +1,15 @@
 # this only really exists as a seperate file to avoid circular dependencies 
 
-import plugins.plugin as plugins
+from plugins.plugin import Action
 
 class StateMachine():
-	actions: dict[str, plugins.Action] = {}
+	actions: dict[str, Action] = {}
 	current_action: str | None = None
 	total_random_weight = 0
 	def __init__(self) -> None:
 		pass
 
-	def add_action(self, action: plugins.Action):
+	def add_action(self, action: Action):
 		self.actions[action.name] = action
 		self.total_random_weight += action.random_weight
 
@@ -19,7 +19,7 @@ class StateMachine():
 
 
 	def update_state(self):
-		new_current_action: plugins.Action | None = None
+		new_current_action: Action | None = None
 
 
 	def _release_action(self, action_name: str):
