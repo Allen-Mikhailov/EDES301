@@ -5,7 +5,7 @@ from board import SCL, SDA
 import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont  # Use Pillow for fonts
-import numpy as np
+import math
 
 fnt = ImageFont.load_default()
 

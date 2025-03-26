@@ -1,6 +1,7 @@
 # This driver used the button drivers to create the controls for a dpad
 
 from button.button import Button
+from typing import Callable
 
 empty_func = lambda: None
 
@@ -11,8 +12,8 @@ class DPad():
 	down_button: Button  
 	enter_button: Button
 
-	on_enter: function
-	on_move: function
+	on_enter: Callable
+	on_move: Callable
 
 	def __init__(self, left_pin, up_pin, right_pin, down_pin, enter_pin) -> None:
 		self.left_button = Button(left_pin)
@@ -31,13 +32,13 @@ class DPad():
 
 		self.enter_button.set_pressed_callback(lambda: self.on_enter())
 
-	def set_on_move(self, on_move: function | None):
+	def set_on_move(self, on_move: Callable | None):
 		if on_move == None:
 			self.on_move = empty_func
 		else:
 			self.on_move = on_move
 
-	def set_on_enter(self, on_enter: function | None):
+	def set_on_enter(self, on_enter: Callable | None):
 		if on_enter == None:
 			self.on_enter = empty_func
 		else:

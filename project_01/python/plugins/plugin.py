@@ -41,7 +41,7 @@ Uses:
 
 """
 from __future__ import annotations
-from state_machine import StateMachine
+from state_machine import StateMachine, StateNode
 
 class Commander():
 	drivers: dict[str, None] = {}
@@ -49,12 +49,7 @@ class Commander():
 	actions: dict[str, Action] = {}
 	state_machine: StateMachine = StateMachine()
 
-class Action:
-	name: str = ""
-	is_active: bool = False
-	is_ready: bool = False
-	force_priority: float = 0
-	random_weight: float = 0
+class Action(StateNode):
 	commander: Commander
 
 	parent_plugin: Plugin | None = None

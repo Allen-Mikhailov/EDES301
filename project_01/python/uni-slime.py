@@ -45,7 +45,7 @@ from plugins.plugin import Plugin, Action, Commander
 from typing import cast
 from state_machine import StateMachine
 
-import plugins.simple_movement 
+# import plugins.simple_movement 
 from plugins.home import HomePlugin
 
 # import ht16k33 as HT16K33
