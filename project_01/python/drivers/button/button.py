@@ -54,7 +54,7 @@ Software API:
 
 """
 import time
-
+from typing import Callable
 import Adafruit_BBIO.GPIO as GPIO
 
 # ------------------------------------------------------------------------
@@ -88,7 +88,7 @@ class Button():
     sleep_time: float
     press_duration: float
 
-    pressed_callback: function = lambda: None
+    pressed_callback: Callable = lambda: None
     
     
     def __init__(self, pin: str, press_low: bool=True, sleep_time: float=0.1, debug: bool=True):
@@ -124,6 +124,7 @@ class Button():
         if (self.debug):
             print(f"Button {self.pin} pressed")
         self.pressed_callback()
+        
     
     
     def _setup(self):
@@ -131,6 +132,7 @@ class Button():
         # Initialize Button
         # HW#4 TODO: (one line of code)
         #   Remove "pass" and use the Adafruit_BBIO.GPIO library to set up the button
+        print(f"Attempt pin setup {self.pin}")
         GPIO.setup(self.pin, GPIO.IN)
 
         GPIO.add_event_detect(self.pin, self.detection, lambda: self.pressed(), self.sleep_time)
@@ -173,7 +175,7 @@ class Button():
     # Callback Functions
     # -----------------------------------------------------
 
-    def set_pressed_callback(self, function):
+    def set_pressed_callback(self, function: Callable):
         """ Function excuted every "sleep_time" while the button is pressed """
         self.pressed_callback = function
     

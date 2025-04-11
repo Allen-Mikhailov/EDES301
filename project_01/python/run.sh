@@ -41,8 +41,8 @@ cd /var/lib/cloud9/EDES301/project_01/python
 ./configure_pins.sh
 
 dirs=(
-    "/var/lib/cloud9/EDES301/python/ht16k33:"
-    "/var/lib/cloud9/EDES301/python/button:"
+    "/var/lib/cloud9/EDES301/project_01/python/plugins:"
+    "/var/lib/cloud9/EDES301/project_01/python/drivers:"
 )
 
-PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 uni-slime.py
+PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3.11 uni-slime.py
