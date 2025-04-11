@@ -45,6 +45,9 @@ from plugins.plugin import Plugin, Action, Commander
 from typing import cast
 from state_machine import StateMachine
 
+
+import Adafruit_BBIO.GPIO as GPIO
+
 # import plugins.simple_movement 
 from plugins.home import HomePlugin
 
@@ -114,15 +117,17 @@ class UniSlime(Commander):
 if __name__ == '__main__':
 
 	print("Program Start")
+	
+	GPIO.cleanup()
 
 	# Create instantiation of the people counter
 	
 	uni_slime = UniSlime()
 
 	# adding drivers	
-	dpad: DPad = DPad("P1_04", "P1_06", "P1_08", "P1_10", "P_12")
+	dpad: DPad = DPad("P1_4", "P1_6", "P1_8", "P1_10", "P1_12")
 	mouth_display = OLEDDisplay(1, 0x3c)
-	home_button = Button("P_02")
+	home_button = Button("P1_2")
 
 	uni_slime.add_driver("Dpad", dpad)
 	uni_slime.add_driver("MouthOLED", mouth_display)

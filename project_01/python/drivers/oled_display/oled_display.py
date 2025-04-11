@@ -29,9 +29,9 @@ class ScreenElement():
 	width: int = 10
 	height: int = 10
 
-	on_update: function | None
-	on_select: function | None
-	on_press: function | None
+	on_update: function | None = None
+	on_select: function | None = None
+	on_press: function | None = None
 
 	selected: bool = False
 
@@ -141,7 +141,7 @@ class Screen():
 	width: int = 0
 	height: int = 0
 
-	on_update: function | None
+	on_update: function | None = None
 
 	image: Image.Image
 	# draw: ImageDraw

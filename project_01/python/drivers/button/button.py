@@ -135,7 +135,7 @@ class Button():
         print(f"Attempt pin setup {self.pin}")
         GPIO.setup(self.pin, GPIO.IN)
 
-        GPIO.add_event_detect(self.pin, self.detection, lambda: self.pressed(), self.sleep_time)
+        GPIO.add_event_detect(self.pin, self.detection, lambda a: self.pressed(), (int) (self.sleep_time*1000))
         pass
 
     # End def

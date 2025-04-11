@@ -25,10 +25,10 @@ class DPad():
 		self.on_move = empty_func
 		self.on_enter = empty_func
 
-		self.left_button.set_pressed_callback(lambda: self.on_move(-1, 0))
-		self.up_button.set_pressed_callback(lambda: self.on_move(0, -1))
-		self.right_button.set_pressed_callback(lambda: self.on_move(1, 0))
-		self.down_button.set_pressed_callback(lambda: self.on_move(0, 1))
+		self.left_button.set_pressed_callback( lambda: self.on_move((-1, 0)))
+		self.up_button.set_pressed_callback(   lambda: self.on_move((0, -1)))
+		self.right_button.set_pressed_callback(lambda: self.on_move((1, 0)))
+		self.down_button.set_pressed_callback( lambda: self.on_move((0, 1)))
 
 		self.enter_button.set_pressed_callback(lambda: self.on_enter())
 
