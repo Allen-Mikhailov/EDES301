@@ -52,6 +52,7 @@ from plugins.home import HomePlugin
 from drivers.button.button import Button
 from drivers.dpad.dpad import DPad
 from drivers.oled_display.oled_display import OLEDDisplay
+from drivers.mpu6050.mpu6050 import MPU6050
 
 # ------------------------------------------------------------------------
 # Constants
@@ -123,10 +124,13 @@ if __name__ == '__main__':
 	dpad: DPad = DPad("P1_04", "P1_06", "P1_08", "P1_10", "P_12")
 	mouth_display = OLEDDisplay(1, 0x3c)
 	home_button = Button("P_02")
+	mpu6050 = MPU6050(0x7d, 1)
 
 	uni_slime.add_driver("Dpad", dpad)
 	uni_slime.add_driver("MouthOLED", mouth_display)
 	uni_slime.add_driver("HomeButton", home_button)
+	uni_slime.add_driver("mpu6050", mpu6050)
+	
 
 	# Adding plugins
 	home_plugin = HomePlugin(uni_slime, mouth_display, dpad, home_button)
