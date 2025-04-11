@@ -1,7 +1,7 @@
 from __future__ import annotations
 from enum import Enum
 
-from board import SCL, SDA
+from board import SCL, SDA, SCL_2, SDA_2
 import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont  # Use Pillow for fonts
