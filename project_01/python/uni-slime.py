@@ -128,12 +128,8 @@ if __name__ == '__main__':
 	# adding drivers	
 	dpad: DPad = DPad("P1_4", "P1_6", "P1_8", "P1_10", "P1_12")
 	mouth_display = OLEDDisplay(1, 0x3c)
-<<<<<<< HEAD
 	home_button = Button("P1_2")
-=======
-	home_button = Button("P_02")
 	mpu6050 = MPU6050(0x7d, 1)
->>>>>>> f2ee7a2426441e24b318d328ca1827295638ce2e
 
 	uni_slime.add_driver("Dpad", dpad)
 	uni_slime.add_driver("MouthOLED", mouth_display)
