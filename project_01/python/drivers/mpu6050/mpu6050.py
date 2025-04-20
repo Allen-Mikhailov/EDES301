@@ -33,7 +33,7 @@ class MPU6050:
 	
 
 if __name__ == '__main__':
-	mpu = MPU6050(0x7d, 1)
+	mpu = MPU6050(0x7d, 2)
 	while True:
 		print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2"%(mpu.get_acceleration()))
 		print("Gyro X:%.2f, Y: %.2f, Z: %.2f degrees/s"%(mpu.get_gyro()))
