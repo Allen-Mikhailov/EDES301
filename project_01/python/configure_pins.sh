@@ -13,3 +13,9 @@ config-pin P2_29 gpio
 config-pin P2_30 gpio
 config-pin P2_32 gpio
 config-pin P2_34 gpio
+
+# Driver pins
+config-pin P1_29 gpio 
+config-pin P1_31 gpio 
+config-pin P1_33 gpio 
+config-pin P1_35 gpio 
