@@ -24,7 +24,7 @@ class L293DNE:
         GPIO.output(self.m2_right, GPIO.LOW)
         
     def move_m1(self, direction: int):
-        left: int = 0:lua require("nvchad.reload").reload_theme()
+        left: int = 0
         right: int = 0
 
         if direction == 1:
