@@ -52,7 +52,6 @@ APIs:
 
 """
 import time
-
 import Adafruit_BBIO.PWM as PWM
 
 # ------------------------------------------------------------------------
@@ -82,6 +81,7 @@ class Buzzer():
             stop      - Stop the buzzer (will cause breaks between tones)
         """
         if frequency is not None:
+            PWM.start(self.pin, 50, frequency)
             # !!! FIX !!! 
             print("Playing {0}".format(frequency))
             # !!! FIX !!! 
@@ -100,7 +100,7 @@ class Buzzer():
         """
         # !!! FIX !!! 
         print("Stopping the buzzer")
-        # !!! FIX !!! 
+        PWM.stop(self.pin)
 
         time.sleep(length)
         
@@ -124,7 +124,7 @@ class Buzzer():
 if __name__ == '__main__':
     print("Buzzer Test")
     
-    buzzer = Buzzer("P2_1")
+    buzzer = Buzzer("P1_36")
     
     print("Play tone")
     

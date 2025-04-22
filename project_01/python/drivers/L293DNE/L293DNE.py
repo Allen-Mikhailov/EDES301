@@ -1,4 +1,5 @@
 import Adafruit_BBIO.GPIO as GPIO
+import time
 
 class L293DNE:
     m1_left: str
@@ -37,4 +38,7 @@ class L293DNE:
     
 if __name__ == "__main__":
     driver = L293DNE("P2_29", "P2_31", "P2_33", "P2_35")
-    driver.move_m1(1)
+    driver.move_m1(-1)
+    
+    while True:
+        time.sleep(1000)

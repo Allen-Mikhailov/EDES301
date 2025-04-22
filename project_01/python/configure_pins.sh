@@ -19,3 +19,6 @@ config-pin P1_29 gpio
 config-pin P1_31 gpio 
 config-pin P1_33 gpio 
 config-pin P1_35 gpio 
+
+# Buzzer Pin
+config-pin P1_36 pwm
