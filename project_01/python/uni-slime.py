@@ -145,9 +145,11 @@ if __name__ == '__main__':
 	# Adding plugins
 	home_plugin = HomePlugin(uni_slime, mouth_display, dpad, home_button)
     weee_plugin = WeeePlugin(uni_slime, mpu6050)
+    simple_movement = SimpleMovement(uni_slime, front_drive)
 
 	uni_slime.add_plugin(home_plugin)
     uni_slime.add_plugin(weee_plugin)
+    uni_slime.add_plugin(simple_movement)
 
 	try:
 		# Run main program

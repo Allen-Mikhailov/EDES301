@@ -26,7 +26,7 @@ class StateMachine():
 		self.actions[action_name].is_ready = is_ready
 		self.update_state()
 
-    def pick_random_state():
+    def pick_random_action():
         total_weight: number = 0
 
         for action_name: str in self.actions:
@@ -45,23 +45,28 @@ class StateMachine():
             head += action.random_weight
             if head >= alpha:
                 return action_name  
+        return None
 
 	def update_state(self):
-        if current_action != None:
-            return
+        highest_priority = 0
+        if self.current_action != None:
+            action = self.actions[self.current_action]
+            highest_priority = action.force_priority
+
 
 		new_current_action: str | None = None
-        alpha = random.random() * self.total_random_weight
-        head = 0
         for action_name: str in self.actions:
             action = self.actions[action_name]
-            head += action.random_weight
-            if head >= alpha:
+            if action.force_priority > highest_priority:
+                highest_priority = action.force_priority
                 new_current_action = action_name
-                break
         
+        if new_current_action == None and highest_priority == 0:
+            new_current_action = self.pick_random_action()
+
         if new_current_action != None:
-            action = self.actions[new_current_action]
+            self._attach_action(new_current_action)
+
 
 	def _release_action(self, action_name: str):
 		self.actions[action_name].release()
