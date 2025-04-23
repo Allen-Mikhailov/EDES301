@@ -48,14 +48,16 @@ from state_machine import StateMachine
 
 import Adafruit_BBIO.GPIO as GPIO
 
-# import plugins.simple_movement 
+from plugins.simple_movement import SimpleMovement
 from plugins.home import HomePlugin
+from plugins.weee import WeeePlugin
 
 # import ht16k33 as HT16K33
 from drivers.button.button import Button
 from drivers.dpad.dpad import DPad
 from drivers.oled_display.oled_display import OLEDDisplay
 from drivers.mpu6050.mpu6050 import MPU6050
+from drivers.L293DNE.L293DNE import L293DNE 
 
 # ------------------------------------------------------------------------
 # Constants
@@ -132,6 +134,8 @@ if __name__ == '__main__':
 	home_button = Button("P1_2")
 	mpu6050 = MPU6050(0x7d, 1)
 
+    front_drive = L293DNE("P1_29", "P1_31", "P1_33", "P1_35")
+
 	uni_slime.add_driver("Dpad", dpad)
 	uni_slime.add_driver("MouthOLED", mouth_display)
 	uni_slime.add_driver("HomeButton", home_button)
@@ -140,11 +144,13 @@ if __name__ == '__main__':
 
 	# Adding plugins
 	home_plugin = HomePlugin(uni_slime, mouth_display, dpad, home_button)
+    weee_plugin = WeeePlugin(uni_slime, mpu6050)
 
 	uni_slime.add_plugin(home_plugin)
+    uni_slime.add_plugin(weee_plugin)
 
 	try:
-		# Run the people counter
+		# Run main program
 		uni_slime.run()
 
 	except KeyboardInterrupt:

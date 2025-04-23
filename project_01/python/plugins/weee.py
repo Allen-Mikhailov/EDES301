@@ -1,6 +1,9 @@
 from plugin import Plugin, Action, Commander
 from drivers.mpu6050.mpu6050 import MPU6050
+import math
 
+gravity_constant = 10
+wee_threshold = 0.80
 
 class WeeeAction(Action):
 	mpu6050: MPU6050
@@ -13,8 +16,9 @@ class WeeeAction(Action):
 		super().loop()
 
 		ax, ay, az = self.mpu6050.get_acceleration()
+        magnitude = math.sqrt(ax*ax + ay*ay + az*az)
 
-		if (abs(ay) > 1):
+		if (magnitude < gravity_constant * wee_threshold):
 			self.commander.state_machine.set_ready_state(self.name, True)
 
 
