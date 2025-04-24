@@ -51,11 +51,13 @@ class Commander():
 
 class Action(StateNode):
 	commander: Commander
+    state_machine: StateMachine
 
 	parent_plugin: Plugin | None = None
 
 	def __init__(self, commander: Commander, name, force_priority=0, random_weight=0):
 		self.commander = commander
+        self.state_machine = commander.state_machine
 		self.name = name
 		self.force_priority = force_priority
 		self.random_weight = random_weight

@@ -85,10 +85,10 @@ class Buzzer():
             # !!! FIX !!! 
             print("Playing {0}".format(frequency))
             # !!! FIX !!! 
-            
-        time.sleep(length)
-        
-        if (stop):
+            if length != None:
+                time.sleep(length)
+                self.stop()
+        else:
             self.stop()
         
     # End def

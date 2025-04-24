@@ -23,6 +23,9 @@ class StateMachine():
 		self.total_random_weight += action.random_weight
 
 	def set_ready_state(self, action_name: str, is_ready: bool):
+        if is_ready != self.actions[action_name].is_ready:
+            return
+
 		self.actions[action_name].is_ready = is_ready
 		self.update_state()
 
@@ -65,6 +68,8 @@ class StateMachine():
             new_current_action = self.pick_random_action()
 
         if new_current_action != None:
+            if self.current_action != None:
+                old_action: StateNode = self.actions[self.current_action]
             self._attach_action(new_current_action)
 
 
