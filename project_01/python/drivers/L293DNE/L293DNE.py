@@ -35,6 +35,19 @@ class L293DNE:
 
         GPIO.output(self.m1_left, left)
         GPIO.output(self.m1_right, right)
+
+    def move_m2(self, direction: int):
+        left: int = 0
+        right: int = 0
+
+        if direction == 1:
+            right = 1
+        elif direction == -1:
+            left = 1
+
+        GPIO.output(self.m2_left, left)
+        GPIO.output(self.m2_right, right)
+ 
     
 if __name__ == "__main__":
     driver = L293DNE("P1_29", "P1_31", "P1_33", "P1_35")
