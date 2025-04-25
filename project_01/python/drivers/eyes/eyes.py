@@ -32,6 +32,9 @@ class Eyes():
 			raise ValueError(f"Invalid bus \"{bus}\"")
 
 		self.display = adafruit_ssd1306.SSD1306_I2C(width, height, self.i2c, addr=address)
+		self.image: Image.Image = Image.new("1", (width, height))
 
 
+    def draw_eyes(self):
+        
         
