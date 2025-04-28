@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python Commands
 
 ### Pip install
@@ -78,4 +79,10 @@ sudo crontab -e
 
 # press <Ctrl> + o then enter to save then press <Ctrl> + x to exit
 # now make sure the script has executable permission by doing sudo chmod +x <file-name>
+# Python Commands
+
+### Pip install
+```bash
+sudo python3.11 -m pip install foo
 ```
+
