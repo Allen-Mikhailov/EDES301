@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python Commands
 
 ### Pip install
@@ -61,3 +62,27 @@ sudo apt-get install libharfbuzz-dev libfribidi-dev libxcb1-dev
 sudo python3.11 -m pip install --upgrade Pillow --no-binary :all: --no-cache-dir
 
 ```
+
+### Making it run on startup
+```bash
+
+# in the cloud9 directory make a logs directory such that /var/lib/cloud9/logs exists
+cd /var/lib/cloud9
+mkdir logs
+# looking back at this file will show everything that was printed out during the run and if it errored
+
+# make sure you have a bash file that can run your project
+sudo crontab -e
+# type 1 then <Enter> to open an text editor
+# once you are in the editor press enter to create a new line and type out this but make sure to put in the full path of your script. My path looks like this: /var/lib/cloud9/EDES301/project_01/python/run.sh
+@reboot sleep 30 && bash <full path of script> > /var/lib/cloud9/logs/cronlog 2>&1
+
+# press <Ctrl> + o then enter to save then press <Ctrl> + x to exit
+# now make sure the script has executable permission by doing sudo chmod +x <file-name>
+# Python Commands
+
+### Pip install
+```bash
+sudo python3.11 -m pip install foo
+```
+

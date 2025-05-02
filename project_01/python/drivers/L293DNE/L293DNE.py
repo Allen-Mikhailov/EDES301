@@ -52,5 +52,8 @@ class L293DNE:
 if __name__ == "__main__":
     driver = L293DNE("P1_29", "P1_31", "P1_33", "P1_35")
     driver.move_m1(1)
+    driver.move_m2(1)
     time.sleep(1)
     driver.move_m1(0)
+    driver.move_m2(0)
+
